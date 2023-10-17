@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PodRacer.h"
 #include "Components/SceneComponent.h"
 #include "HoverComponent.generated.h"
 
@@ -27,6 +28,8 @@ public:
 	// Called every frame
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
+	APodRacer* ParentPodRacer;
+	
 	UFUNCTION(BlueprintCallable) void PodGroundCheck();
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float TraceLenght = 1;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float HoverForce = 1;

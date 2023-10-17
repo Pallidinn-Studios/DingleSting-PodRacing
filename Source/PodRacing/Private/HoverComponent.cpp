@@ -26,6 +26,7 @@ void UHoverComponent::BeginPlay()
 	Super::BeginPlay();
 
 	MainBody = GetOwner()->FindComponentByClass<USkeletalMeshComponent>();
+	ParentPodRacer = Cast<APodRacer>(GetOwner());
 }
 
 
@@ -60,19 +61,21 @@ void UHoverComponent::PodGroundCheck() {
 			GetOwner()->SetActorLocation(HitResult.Location + (GetUpVector() * 300), false, nullptr, ETeleportType::TeleportPhysics);
 			//FRotator test = FRotationMatrix::MakeFromXY(HitResult.ImpactNormal, GetOwner()->GetActorForwardVector());
 			//GetOwner()->SetActorRotation(FRotationMatrix::MakeFromXY(HitResult.ImpactNormal, GetOwner()->GetActorForwardVector()));
-			MainBody->SetLinearDamping(3);
-			MainBody->SetAngularDamping(5);
+			MainBody->SetLinearDamping(ParentPodRacer->GroundDrag);
+			MainBody->SetAngularDamping(ParentPodRacer->GroundAngularDrag);
 			MainBody->SetEnableGravity(false);
+			ParentPodRacer->IsGrounded = true;
 		}
 		else {
-			MainBody->SetLinearDamping(0);
-			MainBody->SetAngularDamping(0);
+			MainBody->SetLinearDamping(ParentPodRacer->AirDrag);
+			MainBody->SetAngularDamping(ParentPodRacer->AirAngularDrag);
 			MainBody->SetEnableGravity(true);
+			ParentPodRacer->IsGrounded = false;
 		}
 	}
 	else {
 		//MainBody->AddImpulseAtLocation(GetUpVector() * HoverForce, GetComponentLocation());
-		MainBody->AddImpulse(GetUpVector() * HoverForce);
+		MainBody->AddImpulse(GetUpVector() * (ParentPodRacer->IsGrounded ? HoverForce : 0));
 
 	}
 }

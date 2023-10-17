@@ -5,7 +5,6 @@
 #include "CoreMinimal.h"
 #include "GameFramework/Pawn.h"
 #include "Components/SkeletalMeshComponent.h"
-#include "HoverComponent.h"
 #include "PodRacer.generated.h"
 
 UCLASS()
@@ -28,7 +27,14 @@ public:
 	UFUNCTION(BlueprintCallable) void SetDirectionForce(UHoverComponent* HoverComp, FRotator Direction, float Force);
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) USkeletalMeshComponent* PodMesh;
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Drag") float GroundDrag;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Drag") float GroundAngularDrag;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Drag") float AirDrag;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Drag") float AirAngularDrag;
+
 	UPROPERTY(BlueprintReadOnly) float PodSpeed;
+	UPROPERTY(BlueprintReadOnly) bool IsGrounded;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
