@@ -3,6 +3,7 @@
 
 #include "PodRacer.h"
 #include "HoverComponent.h"
+#include "MovieSceneSequenceID.h"
 #include "Components/SkeletalMeshComponent.h"
 
 // Sets default values
@@ -12,9 +13,9 @@ APodRacer::APodRacer()
 	PrimaryActorTick.bCanEverTick = true;
 
 
+	//RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("Root"));
 	PodMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Pod"));
 	RootComponent = PodMesh;
-
 	//NewMesh->SetSkeletalMesh(PodMesh);
 }
 
@@ -37,6 +38,9 @@ void APodRacer::Tick(float DeltaTime)
 	Super::Tick(DeltaTime);
 
 	PodSpeed = GetVelocity().Length() * 0.036;
+
+	//MainBody->AddImpulseAtLocation(GetUpVector() * HoverForce, GetComponentLocation());
+	PodMesh->AddImpulse(GetActorForwardVector() * (IsGrounded ? ForwardForce : 0));
 }
 
 // Called to bind functionality to input

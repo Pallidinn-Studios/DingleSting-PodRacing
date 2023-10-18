@@ -27,6 +27,8 @@ void UHoverComponent::BeginPlay()
 
 	MainBody = GetOwner()->FindComponentByClass<USkeletalMeshComponent>();
 	ParentPodRacer = Cast<APodRacer>(GetOwner());
+	
+	//CollisionParameters.AddIgnoredActor(GetOwner());
 }
 
 
@@ -46,6 +48,8 @@ void UHoverComponent::PodGroundCheck() {
 		//End = Start + (-GetUpVector() * TraceLenght);
 		End = Start + (FVector(0,0,-TraceLenght));
 
+
+
 		//Do line trace
 		if (GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility)) {
 			//Debug
@@ -53,24 +57,28 @@ void UHoverComponent::PodGroundCheck() {
 				DrawDebugLine(GetWorld(), Start, HitResult.Location, FColor::Red);
 				GEngine->AddOnScreenDebugMessage(-1, GetWorld()->DeltaTimeSeconds, FColor::Red, "Hit");
 			}
+			DrawDebugLine(GetWorld(), Start, HitResult.Location, FColor::Red);
+			GEngine->AddOnScreenDebugMessage(-1, GetWorld()->DeltaTimeSeconds, FColor::Red, "Hit");
 			
-			//Calculate and add force
-			//FVector const CalculatedForce = FMath::Lerp(HoverForce, 0, (HitResult.Location - GetComponentLocation()).Length() / TraceLenght) * HitResult.ImpactNormal;
-			//MainBody->AddImpulseAtLocation(CalculatedForce, GetComponentLocation());
-			
-			GetOwner()->SetActorLocation(HitResult.Location + (GetUpVector() * 300), false, nullptr, ETeleportType::TeleportPhysics);
+			//GetOwner()->SetActorLocation(HitResult.Location + (HitResult.ImpactNormal * TraceLenght), false, nullptr, ETeleportType::TeleportPhysics);
+
 			//FRotator test = FRotationMatrix::MakeFromXY(HitResult.ImpactNormal, GetOwner()->GetActorForwardVector());
 			//GetOwner()->SetActorRotation(FRotationMatrix::MakeFromXY(HitResult.ImpactNormal, GetOwner()->GetActorForwardVector()));
 			MainBody->SetLinearDamping(ParentPodRacer->GroundDrag);
 			MainBody->SetAngularDamping(ParentPodRacer->GroundAngularDrag);
 			MainBody->SetEnableGravity(false);
 			ParentPodRacer->IsGrounded = true;
+
+			GetOwner()->SetActorLocation(FVector(GetOwner()->GetActorLocation().X, GetOwner()->GetActorLocation().Y, HitResult.Location.Z + ParentPodRacer->RideHeight), false, nullptr, ETeleportType::ResetPhysics);
+
 		}
 		else {
 			MainBody->SetLinearDamping(ParentPodRacer->AirDrag);
 			MainBody->SetAngularDamping(ParentPodRacer->AirAngularDrag);
 			MainBody->SetEnableGravity(true);
 			ParentPodRacer->IsGrounded = false;
+			GEngine->AddOnScreenDebugMessage(0, 1, FColor::Red, "Falling");
+
 		}
 	}
 	else {

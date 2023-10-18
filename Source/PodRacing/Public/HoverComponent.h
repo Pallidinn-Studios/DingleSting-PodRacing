@@ -29,6 +29,9 @@ public:
 	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
 
 	APodRacer* ParentPodRacer;
+
+	//FCollisionQueryParams CollisionParameters;
+
 	
 	UFUNCTION(BlueprintCallable) void PodGroundCheck();
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float TraceLenght = 1;

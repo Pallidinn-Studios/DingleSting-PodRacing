@@ -26,15 +26,21 @@ public:
 
 	UFUNCTION(BlueprintCallable) void SetDirectionForce(UHoverComponent* HoverComp, FRotator Direction, float Force);
 
+	//Visual
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) USkeletalMeshComponent* PodMesh;
 
+	//Player settings
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float GlobalControlSensitivity;
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Drag") float GroundDrag;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Drag") float GroundAngularDrag;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Drag") float AirDrag;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Drag") float AirAngularDrag;
+	//Flight settings
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float GroundDrag = 3;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float GroundAngularDrag = 4;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float AirDrag = 0;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float AirAngularDrag = 1;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float RideHeight = 300;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float ForwardForce = 3000;
 
+	//Misc
 	UPROPERTY(BlueprintReadOnly) float PodSpeed;
 	UPROPERTY(BlueprintReadOnly) bool IsGrounded;
 
