@@ -28,6 +28,8 @@ public:
 
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) USkeletalMeshComponent* PodMesh;
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) float GlobalControlSensitivity;
+
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Drag") float GroundDrag;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Drag") float GroundAngularDrag;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Drag") float AirDrag;
