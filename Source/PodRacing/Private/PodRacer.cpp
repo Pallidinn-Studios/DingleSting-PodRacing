@@ -2,9 +2,11 @@
 
 
 #include "PodRacer.h"
+
 #include "HoverComponent.h"
 #include "MovieSceneSequenceID.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "ProfilingDebugging/BootProfiling.h"
 
 // Sets default values
 APodRacer::APodRacer()
@@ -22,15 +24,8 @@ APodRacer::APodRacer()
 // Called when the game starts or when spawned
 void APodRacer::BeginPlay()
 {
-	Super::BeginPlay();
-	
+	Super::BeginPlay();	
 }
-
-void APodRacer::SetDirectionForce(UHoverComponent* HoverComp, FRotator Direction, float Force) {
-	HoverComp->SetRelativeRotation(Direction);
-	HoverComp->HoverForce = Force;
-}
-
 
 // Called every frame
 void APodRacer::Tick(float DeltaTime)
