@@ -23,22 +23,24 @@ protected:
 public:	
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
-
-	UFUNCTION(BlueprintCallable) void SetDirectionForce(UHoverComponent* HoverComp, FRotator Direction, float Force);
-
+	
 	//Visual
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) USkeletalMeshComponent* PodMesh;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) float PodRoll = 70;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) float PodPitch = 5;
+
 
 	//Player settings
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float GlobalControlSensitivity;
 
 	//Flight settings
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float JoystickForce = 3000;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float ForwardForce = 3000;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float RideHeight = 300;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float GroundDrag = 3;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float GroundAngularDrag = 4;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float AirDrag = 0;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float AirAngularDrag = 1;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float RideHeight = 300;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float ForwardForce = 3000;
 
 	//Misc
 	UPROPERTY(BlueprintReadOnly) float PodSpeed;

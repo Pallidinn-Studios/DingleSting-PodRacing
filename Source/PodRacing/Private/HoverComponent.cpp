@@ -58,7 +58,6 @@ void UHoverComponent::PodGroundCheck() {
 				GEngine->AddOnScreenDebugMessage(-1, GetWorld()->DeltaTimeSeconds, FColor::Red, "Hit");
 			}
 			DrawDebugLine(GetWorld(), Start, HitResult.Location, FColor::Red);
-			GEngine->AddOnScreenDebugMessage(-1, GetWorld()->DeltaTimeSeconds, FColor::Red, "Hit");
 			
 			//GetOwner()->SetActorLocation(HitResult.Location + (HitResult.ImpactNormal * TraceLenght), false, nullptr, ETeleportType::TeleportPhysics);
 
@@ -77,8 +76,6 @@ void UHoverComponent::PodGroundCheck() {
 			MainBody->SetAngularDamping(ParentPodRacer->AirAngularDrag);
 			MainBody->SetEnableGravity(true);
 			ParentPodRacer->IsGrounded = false;
-			GEngine->AddOnScreenDebugMessage(0, 1, FColor::Red, "Falling");
-
 		}
 	}
 	else {
