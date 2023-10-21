@@ -1,8 +1,8 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
+#include "HoverComponent.h"
 #include "DrawDebugHelpers.h"
 #include "Components/ArrowComponent.h"
-#include "HoverComponent.h"
 
 // Sets default values for this component's properties
 UHoverComponent::UHoverComponent()
