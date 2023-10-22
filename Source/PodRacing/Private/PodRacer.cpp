@@ -67,8 +67,15 @@ void APodRacer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 //Sets the player back to the start position
 void APodRacer::RestartGame() {
+	//Resets position and rotation
 	PodRoot->SetPhysicsLinearVelocity(FVector::Zero());
 	SetActorTransform(InitTransform);
+
+	//Resets timerS
+	LapTimes.Empty();
+	CurrentLapTime = GetWorld()->GetTimeSeconds();
+	GameStartTime = GetWorld()->GetTimeSeconds();
+
 }
 
 //Keeps the pod at the correct height above the ground
@@ -130,6 +137,14 @@ void APodRacer::YawControl(FVector2D YawThrottleInput, FVector2D RollPitchInput)
 		(YawThrottleInput.X + RollPitchInput.X) * GlobalControlSensitivity),
 		"None", true);
 }
+
+//Adds a new lap time to the list
+void APodRacer::AddLapTime() {
+	LapTimes.Add(GetWorld()->GetTimeSeconds() - CurrentLapTime);
+
+	CurrentLapTime = GetWorld()->GetTimeSeconds();
+}
+
 
 
 

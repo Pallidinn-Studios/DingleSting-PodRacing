@@ -3,6 +3,8 @@
 
 #include "Track.h"
 
+#include "PodRacer.h"
+
 // Sets default values
 ATrack::ATrack()
 {
@@ -26,12 +28,21 @@ void ATrack::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
-	//Finish->OnComponentBeginOverlap.AddDynamic(this, &ATrack::OverlapEvent);
+	Finish->OnComponentBeginOverlap.AddDynamic(this, &ATrack::OnOverlapBegin);
+	Finish->OnComponentEndOverlap.AddDynamic(this, &ATrack::OnOverlapEnd);
 
 }
+void ATrack::OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) {
+	CanOverlap = true;
+}
 
-void ATrack::OverlapEvent(UPrimitiveComponent* OverlappedComponent, AActor* OtherActor) {
-	
+void ATrack::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
+	if (Cast<APodRacer>(OtherActor) && CanOverlap) {
+		CanOverlap = false;
+
+		Cast<APodRacer>(OtherActor)->AddLapTime();
+		//Cast<APodRacer>(OtherActor)->LapTimes.Add(10.1f);
+	}
 }
 
 

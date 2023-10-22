@@ -38,8 +38,11 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	UFUNCTION(BlueprintCallable) void AddLapTime();
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float CurrentLapTime;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) float GameStartTime;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) TArray<float> LapTimes;
+	
 
 	//Control functions
 	UFUNCTION(BlueprintCallable) void RestartGame();
