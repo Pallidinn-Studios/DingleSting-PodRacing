@@ -31,16 +31,21 @@ APodRacer::APodRacer()
 	//Create left engine
 	LeftEngineParent = CreateDefaultSubobject<USceneComponent>(TEXT("Left engine parent"));
 	LeftEngineParent->SetupAttachment(PodRoot);
-	LeftEngineParent->SetRelativeLocation(FVector(EngineOffset.X, -EngineOffset.Y,EngineOffset.Z));
+	LeftEngineParent->SetRelativeLocation(FVector(EngineParentOffset.X, EngineParentOffset.Y,EngineParentOffset.Z));
+	
 	LeftEngine = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Left engine"));
 	LeftEngine->SetupAttachment(LeftEngineParent);
+	LeftEngine->SetRelativeLocation(FVector(EngineOffset.X, -EngineOffset.Y,EngineOffset.Z));
 
 	//Create right engine 
 	RightEngineParent = CreateDefaultSubobject<USceneComponent>(TEXT("Right engine parent"));
 	RightEngineParent->SetupAttachment(PodRoot);
-	RightEngineParent->SetRelativeLocation(EngineOffset);
+	RightEngineParent->SetRelativeLocation(FVector(EngineParentOffset.X, -EngineParentOffset.Y,EngineParentOffset.Z));
+	
 	RightEngine = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Right engine"));
 	RightEngine->SetupAttachment(RightEngineParent);
+	RightEngine->SetRelativeLocation(FVector(EngineOffset.X, EngineOffset.Y,EngineOffset.Z));
+
 
 	//Create blaster locations
 	BlasterLocations.Add(CreateDefaultSubobject<USceneComponent>("Blaster location 1"));

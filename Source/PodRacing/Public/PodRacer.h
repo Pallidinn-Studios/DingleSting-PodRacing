@@ -61,17 +61,18 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) USkeletalMeshComponent* LeftEngine;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) USceneComponent* RightEngineParent;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) USkeletalMeshComponent* RightEngine;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere) FVector EngineOffset = FVector(1200, 200, -40);
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) FVector EngineParentOffset = FVector(1200, 200, -40);
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) FVector EngineOffset = FVector(0, 650, 0);
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float PodRoll = 70;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float PodPitch = 5;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) FVector2D EngineTiltRange = FVector2D(10.0f, 70.0f);
 
 	//Player settings
-	UPROPERTY(BlueprintReadWrite, EditAnywhere) float GlobalControlSensitivity;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) float GlobalControlSensitivity = 10;
 
 	//Flight settings
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float ForwardForce = 4000000.0;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float JoystickForce = 3000;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float JoystickForce = 300000.0;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float RideHeight = 300;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float GroundDrag = 3;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float GroundAngularDrag = 4;
