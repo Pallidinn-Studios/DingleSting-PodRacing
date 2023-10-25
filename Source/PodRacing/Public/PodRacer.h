@@ -9,6 +9,15 @@
 #include "Components/SkeletalMeshComponent.h"
 #include "PodRacer.generated.h"
 
+USTRUCT(BlueprintType)
+struct FRaceGhost {
+	GENERATED_BODY()
+
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) TArray<FTransform> GhostTransform;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) TArray<FVector2D> GhostYawThrottle;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) TArray<FVector2D> GhostRollPitch;
+};
+
 UCLASS()
 class PODRACING_API APodRacer : public APawn
 {
@@ -43,7 +52,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float CurrentLapTime;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float GameStartTime;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) TArray<float> LapTimes;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) FRaceGhost SavedGhosts;
 
+	
 	//Blaster
 	UFUNCTION(BlueprintCallable) void UseBlasters();
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) TArray<USceneComponent*> BlasterLocations;
@@ -61,7 +72,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) USkeletalMeshComponent* LeftEngine;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) USceneComponent* RightEngineParent;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) USkeletalMeshComponent* RightEngine;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere) FVector EngineParentOffset = FVector(1200, 200, -40);
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) FVector EngineParentOffset;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) FVector EngineOffset = FVector(0, 650, 0);
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float PodRoll = 70;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float PodPitch = 5;

@@ -100,7 +100,8 @@ void APodRacer::Hover() {
 	//Do line trace
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility, CollisionParams)) {
 
-		DrawDebugLine(GetWorld(), Start, HitResult.Location, FColor::Red);
+		//Debug line
+		//DrawDebugLine(GetWorld(), Start, HitResult.Location, FColor::Red);
 
 		PodRoot->SetLinearDamping(GroundDrag);
 		PodRoot->SetAngularDamping(GroundAngularDrag);
