@@ -31,14 +31,22 @@ APodRacer::APodRacer()
 	//Create left engine
 	LeftEngineParent = CreateDefaultSubobject<USceneComponent>(TEXT("Left engine parent"));
 	LeftEngineParent->SetupAttachment(PodRoot);
+	LeftEngineParent->SetRelativeLocation(FVector(EngineOffset.X, -EngineOffset.Y,EngineOffset.Z));
 	LeftEngine = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Left engine"));
 	LeftEngine->SetupAttachment(LeftEngineParent);
 
 	//Create right engine 
 	RightEngineParent = CreateDefaultSubobject<USceneComponent>(TEXT("Right engine parent"));
 	RightEngineParent->SetupAttachment(PodRoot);
+	RightEngineParent->SetRelativeLocation(EngineOffset);
 	RightEngine = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Right engine"));
 	RightEngine->SetupAttachment(RightEngineParent);
+
+	//Create blaster locations
+	BlasterLocations.Add(CreateDefaultSubobject<USceneComponent>("Blaster location 1"));
+	BlasterLocations[0]->SetupAttachment(PodMesh);
+	BlasterLocations.Add(CreateDefaultSubobject<USceneComponent>("Blaster location 2"));
+	BlasterLocations[1]->SetupAttachment(PodMesh);
 }
 
 // Called when the game starts or when spawned
@@ -144,6 +152,11 @@ void APodRacer::AddLapTime() {
 
 	CurrentLapTime = GetWorld()->GetTimeSeconds();
 }
+
+void APodRacer::UseBlasters() {
+	
+}
+
 
 
 

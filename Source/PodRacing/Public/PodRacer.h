@@ -38,12 +38,16 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	//Lap related functions / variables
 	UFUNCTION(BlueprintCallable) void AddLapTime();
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float CurrentLapTime;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float GameStartTime;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) TArray<float> LapTimes;
-	
 
+	//Blaster
+	UFUNCTION(BlueprintCallable) void UseBlasters();
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) TArray<USceneComponent*> BlasterLocations;
+	
 	//Control functions
 	UFUNCTION(BlueprintCallable) void RestartGame();
 	UFUNCTION(BlueprintCallable) void TiltPod(FVector2D RollPitchInput);
@@ -57,11 +61,10 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) USkeletalMeshComponent* LeftEngine;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) USceneComponent* RightEngineParent;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) USkeletalMeshComponent* RightEngine;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) FVector EngineOffset = FVector(1200, 200, -40);
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float PodRoll = 70;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float PodPitch = 5;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) FVector2D EngineTiltRange = FVector2D(10.0f, 70.0f);
-
-
 
 	//Player settings
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float GlobalControlSensitivity;
