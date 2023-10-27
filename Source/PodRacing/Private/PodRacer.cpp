@@ -24,9 +24,6 @@ APodRacer::APodRacer()
 	PodRoot = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Root"));
 	RootComponent = PodRoot;
 
-	//Cretae visual pod mesh
-	PodMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Pod"));
-	PodMesh->SetupAttachment(PodRoot);
 
 	//Create left engine
 	LeftEngineParent = CreateDefaultSubobject<USceneComponent>(TEXT("Left engine parent"));
@@ -52,6 +49,10 @@ APodRacer::APodRacer()
 	BlasterLocations[0]->SetupAttachment(PodMesh);
 	BlasterLocations.Add(CreateDefaultSubobject<USceneComponent>("Blaster location 2"));
 	BlasterLocations[1]->SetupAttachment(PodMesh);
+	
+	//Cretae visual pod mesh
+	//PodMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Pod"));
+	//PodMesh->SetupAttachment(PodRoot);
 }
 
 // Called when the game starts or when spawned
