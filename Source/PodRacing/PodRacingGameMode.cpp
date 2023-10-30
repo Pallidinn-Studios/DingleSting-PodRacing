@@ -2,7 +2,22 @@
 
 #include "PodRacingGameMode.h"
 #include "PodRacingCharacter.h"
+#include "SpectatorWidget.h"
+#include "Blueprint/UserWidget.h"
+#include "Kismet/GameplayStatics.h"
 #include "UObject/ConstructorHelpers.h"
+#include "Widgets/SUserWidget.h"
+
+void APodRacingGameMode::BeginPlay() {
+	Super::BeginPlay();
+
+	UGameplayStatics::GetAllActorsOfClass(GetWorld(), APodRacer::StaticClass(), AllRacers);
+
+	//ChangeSpectator(true);
+
+	USpectatorWidget* NewWidget = CreateWidget<USpectatorWidget>(UGameplayStatics::GetPlayerController(GetWorld(), 0));
+	NewWidget->AddToViewport();
+}
 
 APodRacingGameMode::APodRacingGameMode()
 	: Super()
@@ -12,3 +27,20 @@ APodRacingGameMode::APodRacingGameMode()
 	DefaultPawnClass = PlayerPawnClassFinder.Class;
 
 }
+
+//Changes the current spectator the player is viewing
+APawn* APodRacingGameMode::ChangeSpectator(bool Increment) {
+
+	APodRacingGameMode* MyGameMode = Cast<APodRacingGameMode>(UGameplayStatics::GetGameMode(this));
+
+	if (Increment)	MyGameMode->SpectatorIndex++;
+	else MyGameMode->SpectatorIndex--;
+
+
+	APawn* NewPawn = Cast<APawn>(MyGameMode->AllRacers[FMath::Abs(MyGameMode->SpectatorIndex) % MyGameMode->AllRacers.Num()]);
+	UGameplayStatics::GetPlayerController(GetWorld(), 0)->Possess(NewPawn);
+
+	return NewPawn;
+}
+
+

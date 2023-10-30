@@ -28,20 +28,16 @@ APodRacer::APodRacer()
 	//Create left engine
 	LeftEngineParent = CreateDefaultSubobject<USceneComponent>(TEXT("Left engine parent"));
 	LeftEngineParent->SetupAttachment(PodRoot);
-	LeftEngineParent->SetRelativeLocation(FVector(EngineParentOffset.X, EngineParentOffset.Y,EngineParentOffset.Z));
 	
 	LeftEngine = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Left engine"));
 	LeftEngine->SetupAttachment(LeftEngineParent);
-	LeftEngine->SetRelativeLocation(FVector(EngineOffset.X, -EngineOffset.Y,EngineOffset.Z));
 
 	//Create right engine 
 	RightEngineParent = CreateDefaultSubobject<USceneComponent>(TEXT("Right engine parent"));
 	RightEngineParent->SetupAttachment(PodRoot);
-	RightEngineParent->SetRelativeLocation(FVector(EngineParentOffset.X, -EngineParentOffset.Y,EngineParentOffset.Z));
 	
 	RightEngine = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Right engine"));
 	RightEngine->SetupAttachment(RightEngineParent);
-	RightEngine->SetRelativeLocation(FVector(EngineOffset.X, EngineOffset.Y,EngineOffset.Z));
 
 
 	//Create blaster locations
@@ -51,14 +47,29 @@ APodRacer::APodRacer()
 	BlasterLocations[1]->SetupAttachment(PodMesh);
 	
 	//Cretae visual pod mesh
-	//PodMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Pod"));
-	//PodMesh->SetupAttachment(PodRoot);
+	PodMesh = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Pod"));
+	PodMesh->SetupAttachment(PodRoot);
 }
+
+//Called before tick
+void APodRacer::OnConstruction(const FTransform& Transform) {
+	Super::OnConstruction(Transform);
+
+	//Sets engine positions
+	LeftEngineParent->SetRelativeLocation(FVector(EngineParentOffset.X, EngineParentOffset.Y,EngineParentOffset.Z));
+	LeftEngine->SetRelativeLocation(FVector(EngineOffset.X, -EngineOffset.Y,EngineOffset.Z));
+	
+	RightEngineParent->SetRelativeLocation(FVector(EngineParentOffset.X, -EngineParentOffset.Y,EngineParentOffset.Z));
+	RightEngine->SetRelativeLocation(FVector(EngineOffset.X, EngineOffset.Y,EngineOffset.Z));
+
+}
+
 
 // Called when the game starts or when spawned
 void APodRacer::BeginPlay() {
 	Super::BeginPlay();
 	InitTransform = GetActorTransform();
+	APawn* MyPawn = Cast<APawn>(GetOwner());
 }
 
 // Called every frame
@@ -67,10 +78,6 @@ void APodRacer::Tick(float DeltaTime) {
 
 	PodSpeed = GetVelocity().Length() * 0.036;
 	Hover();
-
-	
-
-	//GEngine->AddOnScreenDebugMessage(1, GetWorld()->DeltaTimeSeconds, FColor::Blue, FString::FromInt(APodRacingGameMode::LapTime));
 }
 
 // Called to bind functionality to input
@@ -83,6 +90,7 @@ void APodRacer::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 void APodRacer::RestartGame() {
 	//Resets position and rotation
 	PodRoot->SetPhysicsLinearVelocity(FVector::Zero());
+	PodRoot->SetPhysicsAngularVelocityInDegrees(FVector::Zero());
 	SetActorTransform(InitTransform);
 
 	//Resets timerS
@@ -160,15 +168,12 @@ void APodRacer::AddLapTime() {
 	CurrentLapTime = GetWorld()->GetTimeSeconds();
 }
 
+//Uses the blasters if equiped
 void APodRacer::UseBlasters() {
 	
 }
 
-
-
-
-
-
-
-
-
+void APodRacer::ChangeCamera(int NewCameraIndex)
+{
+	
+}

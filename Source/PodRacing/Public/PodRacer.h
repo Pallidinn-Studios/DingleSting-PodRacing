@@ -52,8 +52,9 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float CurrentLapTime;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float GameStartTime;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) TArray<float> LapTimes;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere) FRaceGhost SavedGhosts;
-
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) FRaceGhost RecordedGhost;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) float RecordingPullingRate = 0.01;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Lap settings") FString PlayerName;
 	
 	//Blaster
 	UFUNCTION(BlueprintCallable) void UseBlasters();
@@ -66,6 +67,7 @@ public:
 	UFUNCTION(BlueprintCallable) void PodMovement(FVector2D YawThrottleInput, FVector2D RollPitchInput);
 	
 	//Visual
+	virtual void OnConstruction(const FTransform& Transform) override;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) UStaticMeshComponent* PodRoot;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) USkeletalMeshComponent* PodMesh;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) USceneComponent* LeftEngineParent;
@@ -77,7 +79,8 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float PodRoll = 70;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float PodPitch = 5;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) FVector2D EngineTiltRange = FVector2D(10.0f, 70.0f);
-
+	UFUNCTION(BlueprintCallable) void ChangeCamera(int NewCameraIndex);
+	
 	//Player settings
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float GlobalControlSensitivity = 10;
 
