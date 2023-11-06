@@ -130,6 +130,8 @@ void APodRacer::Hover() {
 //Adds the pods movement in all 4 directions
 void APodRacer::PodMovement(FVector2D YawThrottleInput, FVector2D RollPitchInput) {
 
+	if(!CanMove) return;
+	
 	CalculatedVelocity =
 		(RollPitchInput.X * JoystickForce * GetActorRightVector() +
 		RollPitchInput.Y * JoystickForce * GetActorForwardVector() +
@@ -142,6 +144,8 @@ void APodRacer::PodMovement(FVector2D YawThrottleInput, FVector2D RollPitchInput
 //Tilts the pod on mesh on the pitch and roll axis
 void APodRacer::TiltPod(FVector2D RollPitchInput) {
 
+	if(CanMove && Cast<APodRacingGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->SpectatorModeEnabled) return;
+
 	TiltRotation = FMath::RInterpTo(
 		PodMesh->GetRelativeRotation(),
 		FRotator(RollPitchInput.Y * PodPitch * -1,0,RollPitchInput.X * PodRoll),
@@ -153,7 +157,9 @@ void APodRacer::TiltPod(FVector2D RollPitchInput) {
 
 //Controls the pods yaw 
 void APodRacer::YawControl(FVector2D YawThrottleInput, FVector2D RollPitchInput) {
-	
+
+	if(!CanMove) return;
+
 	PodRoot->AddAngularImpulseInDegrees(FVector(
 		0,
 		0,

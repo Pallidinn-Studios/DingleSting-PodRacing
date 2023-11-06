@@ -13,6 +13,8 @@ USTRUCT(BlueprintType)
 struct FRaceGhost {
 	GENERATED_BODY()
 
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) int StartingPosition;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) FString RacerName;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) TArray<FTransform> GhostTransform;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) TArray<FVector2D> GhostYawThrottle;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) TArray<FVector2D> GhostRollPitch;
@@ -60,7 +62,9 @@ public:
 	UFUNCTION(BlueprintCallable) void UseBlasters();
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) TArray<USceneComponent*> BlasterLocations;
 	
-	//Control functions
+	//Control related
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) bool CanMove = false;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) float BoostAmount;
 	UFUNCTION(BlueprintCallable) void RestartGame();
 	UFUNCTION(BlueprintCallable) void TiltPod(FVector2D RollPitchInput);
 	UFUNCTION(BlueprintCallable) void YawControl(FVector2D YawThrottleInput, FVector2D RollPitchInput);

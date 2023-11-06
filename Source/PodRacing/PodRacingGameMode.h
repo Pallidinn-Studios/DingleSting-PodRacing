@@ -21,7 +21,9 @@ public:
 	APodRacingGameMode();
 	
 	UFUNCTION(BlueprintCallable) APawn* ChangeSpectator(bool Increment);
-
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) FString SaveGameToUse;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) bool SpectatorModeEnabled;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) TArray<FTransform> StartingPositions;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) TArray<AActor*> AllRacers;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) int CurrentRecordingIndex;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) bool ShouldUpdateRecordingIndex = true;
