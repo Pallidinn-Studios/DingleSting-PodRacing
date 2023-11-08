@@ -105,21 +105,28 @@ void APodRacer::Hover() {
 	//Calculate start and end pos
 	Start = FVector(GetActorLocation().X,GetActorLocation().Y,GetActorLocation().Z - 150);
 	End = Start + (FVector(0,0,-RideHeight + 100));
+	FRotator TargetRotation;
 	
 	//Do line trace
 	if (GetWorld()->LineTraceSingleByChannel(HitResult, Start, End, ECC_Visibility, CollisionParams)) {
-
 		//Debug line
 		//DrawDebugLine(GetWorld(), Start, HitResult.Location, FColor::Red);
 
+		//Sets physics settings
 		PodRoot->SetLinearDamping(GroundDrag);
 		PodRoot->SetAngularDamping(GroundAngularDrag);
 		PodRoot->SetEnableGravity(false);
 		IsGrounded = true;
 
+		//Calculates and sets new rotation
+		TargetRotation = FMath::RInterpTo(GetActorRotation(), FRotationMatrix::MakeFromZX(HitResult.Normal, GetActorForwardVector()).Rotator(), GetWorld()->DeltaTimeSeconds, 3);
+		SetActorRotation(TargetRotation, ETeleportType::ResetPhysics);
+
+		//sets new hovering position
 		SetActorLocation(FVector(GetActorLocation().X, GetActorLocation().Y, HitResult.Location.Z + RideHeight), false, nullptr, ETeleportType::ResetPhysics);
 	}
 	else {
+		//Sets physics settings
 		PodRoot->SetLinearDamping(AirDrag);
 		PodRoot->SetAngularDamping(AirAngularDrag);
 		PodRoot->SetEnableGravity(true);

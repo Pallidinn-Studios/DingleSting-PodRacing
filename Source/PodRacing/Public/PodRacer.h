@@ -13,12 +13,14 @@ USTRUCT(BlueprintType)
 struct FRaceGhost {
 	GENERATED_BODY()
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere) int StartingPosition;
+	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) FString RacerName;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) TArray<FTransform> GhostTransform;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) TArray<FVector2D> GhostYawThrottle;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) TArray<FVector2D> GhostRollPitch;
-};
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) float FinishTime;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) int StartingPosition;
+}; 
 
 UCLASS()
 class PODRACING_API APodRacer : public APawn
@@ -50,6 +52,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	//Lap related functions / variables
+	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable) void Record(bool Record);
 	UFUNCTION(BlueprintCallable) void AddLapTime();
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float CurrentLapTime;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float GameStartTime;

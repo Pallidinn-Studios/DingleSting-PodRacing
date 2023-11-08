@@ -24,24 +24,31 @@ void ATrack::BeginPlay()
 }
 
 // Called every frame
-void ATrack::Tick(float DeltaTime)
-{
+void ATrack::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 
 	Finish->OnComponentBeginOverlap.AddDynamic(this, &ATrack::OnOverlapBegin);
 	Finish->OnComponentEndOverlap.AddDynamic(this, &ATrack::OnOverlapEnd);
 
 }
+//Overlap end event
 void ATrack::OnOverlapEnd(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex) {
 	CanOverlap = true;
 }
 
+//Overlap event
 void ATrack::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) {
-	if (Cast<APodRacer>(OtherActor) && CanOverlap) {
-		CanOverlap = false;
+	APodRacer* RacerRef = Cast<APodRacer>(OtherActor); // reference to pod racer character
+	
+	if (RacerRef->IsPawnControlled() && CanOverlap) {
+		CanOverlap = false; //To stop multiple overlap events every frame
 
-		Cast<APodRacer>(OtherActor)->AddLapTime();
-		//Cast<APodRacer>(OtherActor)->LapTimes.Add(10.1f);
+		RacerRef->AddLapTime(); //Adds lap times 
+
+		//Stop recording if the player has completed the final lap
+		if(RacerRef->LapTimes.Num() >= 3) {
+			RacerRef->Record(false);
+		}
 	}
 }
 
