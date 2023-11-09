@@ -20,7 +20,7 @@ protected:
 public:
 	APodRacingGameMode();
 	
-	UFUNCTION(BlueprintCallable) APawn* ChangeSpectator(bool Increment);
+	UFUNCTION(BlueprintCallable) APawn* ChangeSpectator(bool Increment, int Index);
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) FString SaveGameToUse;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) bool SpectatorModeEnabled;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) TArray<FTransform> StartingPositions;

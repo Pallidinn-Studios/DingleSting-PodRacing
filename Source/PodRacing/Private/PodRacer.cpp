@@ -120,7 +120,6 @@ void APodRacer::Hover() {
 
 		//Calculates and sets new rotation
 		TargetRotation = FMath::RInterpTo(GetActorRotation(), FRotationMatrix::MakeFromZX(HitResult.Normal, GetActorForwardVector()).Rotator(), GetWorld()->DeltaTimeSeconds, 3);
-		SetActorRotation(TargetRotation, ETeleportType::ResetPhysics);
 
 		//sets new hovering position
 		SetActorLocation(FVector(GetActorLocation().X, GetActorLocation().Y, HitResult.Location.Z + RideHeight), false, nullptr, ETeleportType::ResetPhysics);
@@ -131,7 +130,13 @@ void APodRacer::Hover() {
 		PodRoot->SetAngularDamping(AirAngularDrag);
 		PodRoot->SetEnableGravity(true);
 		IsGrounded = false;
+
+		//Calculates and sets new rotation
+		TargetRotation = FMath::RInterpTo(GetActorRotation(), FRotationMatrix::MakeFromZX(FVector::UpVector, GetActorForwardVector()).Rotator(), GetWorld()->DeltaTimeSeconds, 3);
 	}
+
+	//Sets the actor rotation 
+	SetActorRotation(TargetRotation, ETeleportType::ResetPhysics);
 }
 
 //Adds the pods movement in all 4 directions

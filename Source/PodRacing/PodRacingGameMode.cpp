@@ -29,14 +29,18 @@ APodRacingGameMode::APodRacingGameMode()
 }
 
 //Changes the current spectator the player is viewing
-APawn* APodRacingGameMode::ChangeSpectator(bool Increment) {
+APawn* APodRacingGameMode::ChangeSpectator(bool Increment, int Index) {
 
 	APodRacingGameMode* MyGameMode = Cast<APodRacingGameMode>(UGameplayStatics::GetGameMode(this));
 
-	if (Increment)	MyGameMode->SpectatorIndex++;
-	else MyGameMode->SpectatorIndex--;
-
-
+	if (Index == -1) {
+		if (Increment)	MyGameMode->SpectatorIndex++;
+		else MyGameMode->SpectatorIndex--;
+	}
+	else {
+		SpectatorIndex = 0;
+	}
+	
 	APawn* NewPawn = Cast<APawn>(MyGameMode->AllRacers[FMath::Abs(MyGameMode->SpectatorIndex) % MyGameMode->AllRacers.Num()]);
 	UGameplayStatics::GetPlayerController(GetWorld(), 0)->Possess(NewPawn);
 
