@@ -12,7 +12,6 @@
 USTRUCT(BlueprintType)
 struct FRaceGhost {
 	GENERATED_BODY()
-
 	
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) FString RacerName;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) TArray<FTransform> GhostTransform;
