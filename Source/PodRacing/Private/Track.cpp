@@ -4,6 +4,7 @@
 #include "Track.h"
 
 #include "PodRacer.h"
+#include "Kismet/GameplayStatics.h"
 
 // Sets default values
 ATrack::ATrack()
@@ -48,6 +49,7 @@ void ATrack::OnOverlapBegin(class UPrimitiveComponent* OverlappedComp, class AAc
 		//Stop recording if the player has completed the final lap
 		if(RacerRef->LapTimes.Num() >= 3) {
 			RacerRef->Record(false);
+			UGameplayStatics::SetGlobalTimeDilation(GetWorld(), 0.1f);
 		}
 	}
 }

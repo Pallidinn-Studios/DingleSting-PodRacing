@@ -77,7 +77,17 @@ void APodRacer::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 
 	PodSpeed = GetVelocity().Length() * 0.036;
-	Hover();
+	if (!IsGhost) Hover();
+	
+	//If using boost decrement the boost amount
+	if(UsingBoost) {
+		BoostAmount = FMathf::Clamp(BoostAmount - GetWorld()->GetDeltaSeconds(), 0, 1);
+
+		if (BoostAmount <= 0 ) UseBoost(false);
+	}
+
+	//Add blaster ammo over time
+	BlasterAmmo = FMathf::Clamp(BlasterAmmo + GetWorld()->GetDeltaSeconds() * 2, 0, 100);
 }
 
 // Called to bind functionality to input
@@ -105,6 +115,7 @@ void APodRacer::Hover() {
 	//Calculate start and end pos
 	Start = FVector(GetActorLocation().X,GetActorLocation().Y,GetActorLocation().Z - 150);
 	End = Start + (FVector(0,0,-RideHeight + 100));
+
 	FRotator TargetRotation;
 	
 	//Do line trace
@@ -119,7 +130,7 @@ void APodRacer::Hover() {
 		IsGrounded = true;
 
 		//Calculates and sets new rotation
-		TargetRotation = FMath::RInterpTo(GetActorRotation(), FRotationMatrix::MakeFromZX(HitResult.Normal, GetActorForwardVector()).Rotator(), GetWorld()->DeltaTimeSeconds, 3);
+		TargetRotation = FMath::RInterpTo(GetActorRotation(), FRotationMatrix::MakeFromZX(HitResult.Normal, GetActorForwardVector()).Rotator(), GetWorld()->DeltaTimeSeconds, 2);
 
 		//sets new hovering position
 		SetActorLocation(FVector(GetActorLocation().X, GetActorLocation().Y, HitResult.Location.Z + RideHeight), false, nullptr, ETeleportType::ResetPhysics);
@@ -132,11 +143,13 @@ void APodRacer::Hover() {
 		IsGrounded = false;
 
 		//Calculates and sets new rotation
-		TargetRotation = FMath::RInterpTo(GetActorRotation(), FRotationMatrix::MakeFromZX(FVector::UpVector, GetActorForwardVector()).Rotator(), GetWorld()->DeltaTimeSeconds, 3);
+		//SetActorRotation(FRotationMatrix::MakeFromZX(FVector::UpVector, GetActorForwardVector()).Rotator(), ETeleportType::TeleportPhysics);
+
+		TargetRotation = FMath::RInterpTo(GetActorRotation(), FRotationMatrix::MakeFromZX(FVector::UpVector, GetActorForwardVector()).Rotator(), GetWorld()->DeltaTimeSeconds, 2);
 	}
 
 	//Sets the actor rotation 
-	SetActorRotation(TargetRotation, ETeleportType::ResetPhysics);
+	SetActorRotation(TargetRotation, ETeleportType::TeleportPhysics);
 }
 
 //Adds the pods movement in all 4 directions
@@ -147,7 +160,7 @@ void APodRacer::PodMovement(FVector2D YawThrottleInput, FVector2D RollPitchInput
 	CalculatedVelocity =
 		(RollPitchInput.X * JoystickForce * GetActorRightVector() +
 		RollPitchInput.Y * JoystickForce * GetActorForwardVector() +
-		YawThrottleInput.Y * ForwardForce * GetActorForwardVector()) *
+		YawThrottleInput.Y * ForwardForce * GetActorForwardVector() * ForwardMultiplier) *
 		GetWorld()->DeltaTimeSeconds;
 	
 	PodRoot->AddImpulse(IsGrounded ? CalculatedVelocity : FVector::Zero());
@@ -188,10 +201,15 @@ void APodRacer::AddLapTime() {
 
 //Uses the blasters if equiped
 void APodRacer::UseBlasters() {
-	
+	BlasterAmmo = BlasterAmmo - 10;
 }
 
 void APodRacer::ChangeCamera(int NewCameraIndex)
 {
 	
+}
+
+void APodRacer::UseBoost(bool Use) {
+	UsingBoost = Use;
+	ForwardMultiplier = Use? 1.5 : 1;
 }

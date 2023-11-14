@@ -19,7 +19,13 @@ struct FRaceGhost {
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) TArray<FVector2D> GhostRollPitch;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float FinishTime;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) int StartingPosition;
-}; 
+};
+
+UENUM(BlueprintType)
+enum class AbilityModes : uint8{
+	Blaster,
+	Boost
+};
 
 UCLASS()
 class PODRACING_API APodRacer : public APawn
@@ -63,10 +69,16 @@ public:
 	//Blaster
 	UFUNCTION(BlueprintCallable) void UseBlasters();
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) TArray<USceneComponent*> BlasterLocations;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) float BlasterAmmo = 50;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) AbilityModes AbilityMode;
+
 	
 	//Control related
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) bool CanMove = false;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float BoostAmount;
+	float ForwardMultiplier = 1;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) bool UsingBoost = false;
+	UFUNCTION(BlueprintCallable) void UseBoost(bool Use);
 	UFUNCTION(BlueprintCallable) void RestartGame();
 	UFUNCTION(BlueprintCallable) void TiltPod(FVector2D RollPitchInput);
 	UFUNCTION(BlueprintCallable) void YawControl(FVector2D YawThrottleInput, FVector2D RollPitchInput);
@@ -86,7 +98,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float PodPitch = 5;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) FVector2D EngineTiltRange = FVector2D(10.0f, 70.0f);
 	UFUNCTION(BlueprintCallable) void ChangeCamera(int NewCameraIndex);
-	
+
 	//Player settings
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float GlobalControlSensitivity = 10;
 
@@ -102,6 +114,7 @@ public:
 	//Misc
 	UPROPERTY(BlueprintReadOnly) float PodSpeed;
 	UPROPERTY(BlueprintReadOnly) bool IsGrounded;
+	UPROPERTY(BlueprintReadWrite) bool IsGhost = false;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
