@@ -185,11 +185,11 @@ void APodRacer::YawControl(FVector2D YawThrottleInput, FVector2D RollPitchInput)
 
 	if(!CanMove) return;
 
-	PodRoot->AddAngularImpulseInDegrees(FVector(
-		0,
-		0,
-		(YawThrottleInput.X + RollPitchInput.X) * GlobalControlSensitivity),
-		"None", true);
+	//Calculate weighted input to yaw
+	TargetYaw = FMath::FInterpTo(TargetYaw, ((RollPitchInput.X * 3.6) + (YawThrottleInput.X * 4)) * GlobalControlSensitivity, GetWorld()->GetDeltaSeconds(), 4);
+
+	//Rotates the player on the yaw axis
+	AddActorWorldRotation(FRotator(0,TargetYaw,0), false , nullptr, ETeleportType::TeleportPhysics);
 }
 
 //Adds a new lap time to the list

@@ -104,7 +104,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float GlobalControlSensitivity = 10;
 
 	//Input
-	UFUNCTION(BlueprintCallable) void PodInput(FVector2D YawThrottle, FVector2D RollPitch) 
+	//UFUNCTION(BlueprintCallable) void PodInput(FVector2D YawThrottle, FVector2D RollPitch); 
 
 	//Flight settings
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float ForwardForce = 4000000.0;
@@ -119,6 +119,7 @@ public:
 	UPROPERTY(BlueprintReadOnly) float PodSpeed;
 	UPROPERTY(BlueprintReadOnly) bool IsGrounded;
 	UPROPERTY(BlueprintReadWrite) bool IsGhost = false;
+	float TargetYaw;
 
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
