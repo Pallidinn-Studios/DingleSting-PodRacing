@@ -81,7 +81,7 @@ void APodRacer::Tick(float DeltaTime) {
 	
 	//If using boost decrement the boost amount
 	if(UsingBoost) {
-		BoostAmount = FMathf::Clamp(BoostAmount - GetWorld()->GetDeltaSeconds(), 0, 1);
+		BoostAmount = FMathf::Clamp(BoostAmount - GetWorld()->GetDeltaSeconds() / 2, 0, 1);
 
 		if (BoostAmount <= 0 ) UseBoost(false);
 	}

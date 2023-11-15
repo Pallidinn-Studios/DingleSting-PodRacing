@@ -7,6 +7,7 @@
 #include "GameFramework/Pawn.h"
 #include "Math/Vector2D.h"
 #include "Components/SkeletalMeshComponent.h"
+#include "Physics/NetworkPhysicsComponent.h"
 #include "PodRacer.generated.h"
 
 USTRUCT(BlueprintType)
@@ -101,6 +102,9 @@ public:
 
 	//Player settings
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float GlobalControlSensitivity = 10;
+
+	//Input
+	UFUNCTION(BlueprintCallable) void PodInput(FVector2D YawThrottle, FVector2D RollPitch) 
 
 	//Flight settings
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float ForwardForce = 4000000.0;
