@@ -57,6 +57,9 @@ public:
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 
+	//Input
+	UFUNCTION(BlueprintCallable) void AddInput(); 
+
 	//Lap related functions / variables
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable) void Record(bool Record);
 	UFUNCTION(BlueprintCallable) void AddLapTime();
@@ -103,8 +106,7 @@ public:
 	//Player settings
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) float GlobalControlSensitivity = 10;
 
-	//Input
-	//UFUNCTION(BlueprintCallable) void PodInput(FVector2D YawThrottle, FVector2D RollPitch); 
+
 
 	//Flight settings
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float ForwardForce = 4000000.0;
