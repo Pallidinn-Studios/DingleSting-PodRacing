@@ -58,7 +58,7 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	//Input
-	UFUNCTION(BlueprintCallable) void AddInput(); 
+	//UFUNCTION(BlueprintCallable) void AddInput(); 
 
 	//Lap related functions / variables
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable) void Record(bool Record);
