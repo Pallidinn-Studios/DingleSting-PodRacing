@@ -58,8 +58,10 @@ public:
 	virtual void Tick(float DeltaTime) override;
 
 	//Input
-	//UFUNCTION(BlueprintCallable) void AddInput(); 
-
+	UFUNCTION(BlueprintCallable) void AddPodInput(FVector2D YawThrottle, FVector2D RollPitch);
+	FVector2D YawThrottleI;
+	FVector2D RollPitchI;
+	
 	//Lap related functions / variables
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable) void Record(bool Record);
 	UFUNCTION(BlueprintCallable) void AddLapTime();

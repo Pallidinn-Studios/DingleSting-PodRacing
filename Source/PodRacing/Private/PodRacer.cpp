@@ -77,7 +77,12 @@ void APodRacer::Tick(float DeltaTime) {
 	Super::Tick(DeltaTime);
 
 	PodSpeed = GetVelocity().Length() * 0.036;
-	if (!IsGhost) Hover();
+	
+	if (!IsGhost) {
+		Hover();
+		PodMovement(YawThrottleI, RollPitchI);
+		YawControl(YawThrottleI, RollPitchI);
+	}
 	
 	//If using boost decrement the boost amount
 	if(UsingBoost) {
@@ -88,6 +93,11 @@ void APodRacer::Tick(float DeltaTime) {
 
 	//Add blaster ammo over time
 	BlasterAmmo = FMathf::Clamp(BlasterAmmo + GetWorld()->GetDeltaSeconds() * 2, 0, 100);
+}
+
+void APodRacer::AddPodInput(FVector2D YawThrottle, FVector2D RollPitch) {
+	YawThrottleI = YawThrottle;
+	RollPitchI = RollPitch;
 }
 
 // Called to bind functionality to input
@@ -157,10 +167,17 @@ void APodRacer::PodMovement(FVector2D YawThrottleInput, FVector2D RollPitchInput
 
 	if(!CanMove) return;
 	
+	//CalculatedVelocity =
+	//	(RollPitchInput.X * JoystickForce * GetActorRightVector() +
+	//	RollPitchInput.Y * JoystickForce * GetActorForwardVector() +
+	//	YawThrottleInput.Y * ForwardForce * GetActorForwardVector() * ForwardMultiplier) *
+	//	GetWorld()->DeltaTimeSeconds;
+
+		
 	CalculatedVelocity =
-		(RollPitchInput.X * JoystickForce * GetActorRightVector() +
-		RollPitchInput.Y * JoystickForce * GetActorForwardVector() +
-		YawThrottleInput.Y * ForwardForce * GetActorForwardVector() * ForwardMultiplier) *
+		(RollPitchI.X * JoystickForce * GetActorRightVector() +
+		RollPitchI.Y * JoystickForce * GetActorForwardVector() +
+		YawThrottleI.Y * ForwardForce * GetActorForwardVector() * ForwardMultiplier) *
 		GetWorld()->DeltaTimeSeconds;
 	
 	PodRoot->AddImpulse(IsGrounded ? CalculatedVelocity : FVector::Zero());
