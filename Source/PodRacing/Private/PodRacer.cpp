@@ -64,6 +64,20 @@ void APodRacer::OnConstruction(const FTransform& Transform) {
 
 }
 
+void APodRacer::TiltEngines() {
+	//Right engine
+	FRotator RightTarget = FMath::RInterpTo(
+		RightEngineParent->GetRelativeRotation(),
+		FRotator(0,0,FMath::Clamp((YawThrottleI.X + RollPitchI.X) * EngineTiltRange.Y, EngineTiltRange.Y * -1, EngineTiltRange.X)),
+		GetWorld()->DeltaTimeSeconds,
+		3);
+
+	
+	RightEngineParent->SetRelativeRotation(RightTarget);
+	LeftEngineParent->SetRelativeRotation(RightTarget);
+
+}
+
 
 // Called when the game starts or when spawned
 void APodRacer::BeginPlay() {
@@ -82,6 +96,8 @@ void APodRacer::Tick(float DeltaTime) {
 		Hover();
 		PodMovement(YawThrottleI, RollPitchI);
 		YawControl(YawThrottleI, RollPitchI);
+		TiltPod(RollPitchI);
+		TiltEngines();
 	}
 	
 	//If using boost decrement the boost amount
