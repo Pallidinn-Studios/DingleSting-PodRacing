@@ -92,6 +92,7 @@ public:
 	
 	//Visual
 	virtual void OnConstruction(const FTransform& Transform) override;
+	UFUNCTION(BlueprintCallable) void TiltEngines();
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) UStaticMeshComponent* PodRoot;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) USkeletalMeshComponent* PodMesh;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) USceneComponent* LeftEngineParent;
