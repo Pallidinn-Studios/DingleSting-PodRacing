@@ -5,6 +5,8 @@
 #include "CoreMinimal.h"
 #include "InputAction.h"
 #include "GameFramework/Pawn.h"
+#include "NiagaraFunctionLibrary.h"
+#include "NiagaraComponent.h"
 #include "Math/Vector2D.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Physics/NetworkPhysicsComponent.h"
@@ -89,6 +91,9 @@ public:
 	UFUNCTION(BlueprintCallable) void TiltPod(FVector2D RollPitchInput);
 	UFUNCTION(BlueprintCallable) void YawControl(FVector2D YawThrottleInput, FVector2D RollPitchInput);
 	UFUNCTION(BlueprintCallable) void PodMovement(FVector2D YawThrottleInput, FVector2D RollPitchInput);
+
+	//Created components
+	UPROPERTY(BlueprintReadWrite) UNiagaraSystem* LeftEngineParticals; 
 	
 	//Visual
 	virtual void OnConstruction(const FTransform& Transform) override;

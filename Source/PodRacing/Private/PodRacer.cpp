@@ -31,13 +31,15 @@ APodRacer::APodRacer()
 	
 	LeftEngine = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Left engine"));
 	LeftEngine->SetupAttachment(LeftEngineParent);
-
-	//Create right engine 
-	RightEngineParent = CreateDefaultSubobject<USceneComponent>(TEXT("Right engine parent"));
-	RightEngineParent->SetupAttachment(PodRoot);
+	LeftEngineParticals = CreateDefaultSubobject<UNiagaraSystem>(TEXT("Left engine particals")); // Particals
+	//LeftEngineParticals->SetupAttachment(RightEngineParent);
 	
-	RightEngine = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Right engine"));
+	//Create right engine 
+	RightEngineParent = CreateDefaultSubobject<USceneComponent>(TEXT("Right engine parent")); // Engine Parent
+	RightEngineParent->SetupAttachment(PodRoot);
+	RightEngine = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Right engine")); // Engine 
 	RightEngine->SetupAttachment(RightEngineParent);
+
 
 
 	//Create blaster locations
@@ -64,19 +66,8 @@ void APodRacer::OnConstruction(const FTransform& Transform) {
 
 }
 
-void APodRacer::TiltEngines() {
-	//Right engine
-	FRotator RightTarget = FMath::RInterpTo(
-		RightEngineParent->GetRelativeRotation(),
-		FRotator(0,0,FMath::Clamp((YawThrottleI.X + RollPitchI.X) * EngineTiltRange.Y, EngineTiltRange.Y * -1, EngineTiltRange.X)),
-		GetWorld()->DeltaTimeSeconds,
-		3);
 
-	
-	RightEngineParent->SetRelativeRotation(RightTarget);
-	LeftEngineParent->SetRelativeRotation(RightTarget);
 
-}
 
 
 // Called when the game starts or when spawned
@@ -99,6 +90,8 @@ void APodRacer::Tick(float DeltaTime) {
 		TiltPod(RollPitchI);
 		TiltEngines();
 	}
+
+	
 	
 	//If using boost decrement the boost amount
 	if(UsingBoost) {
@@ -140,7 +133,7 @@ void APodRacer::RestartGame() {
 void APodRacer::Hover() {
 	//Calculate start and end pos
 	Start = FVector(GetActorLocation().X,GetActorLocation().Y,GetActorLocation().Z - 150);
-	End = Start + (FVector(0,0,-RideHeight + 100));
+	End = Start + (FVector(0,0,-RideHeight - 500));
 
 	FRotator TargetRotation;
 	
@@ -159,7 +152,8 @@ void APodRacer::Hover() {
 		TargetRotation = FMath::RInterpTo(GetActorRotation(), FRotationMatrix::MakeFromZX(HitResult.Normal, GetActorForwardVector()).Rotator(), GetWorld()->DeltaTimeSeconds, 2);
 
 		//sets new hovering position
-		SetActorLocation(FVector(GetActorLocation().X, GetActorLocation().Y, HitResult.Location.Z + RideHeight), false, nullptr, ETeleportType::ResetPhysics);
+		FVector TargetP = FMath::VInterpTo(GetActorLocation(), FVector(GetActorLocation().X, GetActorLocation().Y, HitResult.Location.Z + RideHeight), GetWorld()->DeltaTimeSeconds, 10);
+		SetActorLocation(TargetP, false, nullptr, ETeleportType::ResetPhysics);
 	}
 	else {
 		//Sets physics settings
@@ -223,6 +217,44 @@ void APodRacer::YawControl(FVector2D YawThrottleInput, FVector2D RollPitchInput)
 
 	//Rotates the player on the yaw axis
 	AddActorWorldRotation(FRotator(0,TargetYaw,0), false , nullptr, ETeleportType::TeleportPhysics);
+}
+
+//Adds tilt to the engines
+void APodRacer::TiltEngines() {
+	//Calculate right engine parent tilt
+	FRotator RightTarget = FMath::RInterpTo(
+		RightEngineParent->GetRelativeRotation(),
+		FRotator(
+			0,
+			RollPitchI.X * 20,
+			FMath::Clamp(RollPitchI.X* EngineTiltRange.Y, EngineTiltRange.Y * -1, EngineTiltRange.X)),
+		GetWorld()->DeltaTimeSeconds,
+		3);
+
+	FRotator LeftTarget = FMath::RInterpTo(
+	LeftEngineParent->GetRelativeRotation(),
+	FRotator(
+		0,
+		RollPitchI.X * 20,
+		FMath::Clamp(RollPitchI.X * EngineTiltRange.Y, EngineTiltRange.X * -1, EngineTiltRange.Y)),
+	GetWorld()->DeltaTimeSeconds,
+	3);
+	
+	//Calculate left engine parent tilt
+	FRotator EngineTiltTarget = FMath::RInterpTo(LeftEngineParent->GetRelativeRotation(),RollPitchI.X < 0 ?
+		FRotator(FMath::Abs(RollPitchI.X) * 10,YawThrottleI.X* 15,0) :
+		FRotator(0,0,0),
+		GetWorld()->DeltaTimeSeconds,
+		3);
+
+	//Tilt engine parents
+	RightEngineParent->SetRelativeRotation(RightTarget);
+	LeftEngineParent->SetRelativeRotation(LeftTarget);
+
+	//Tilt engines 
+	RightEngine->SetRelativeRotation(EngineTiltTarget);
+	LeftEngine->SetRelativeRotation(EngineTiltTarget);
+
 }
 
 //Adds a new lap time to the list
