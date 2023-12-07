@@ -61,8 +61,8 @@ public:
 
 	//Input
 	UFUNCTION(BlueprintCallable) void AddPodInput(FVector2D YawThrottle, FVector2D RollPitch);
-	FVector2D YawThrottleI;
-	FVector2D RollPitchI;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) FVector2D YawThrottleI;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) FVector2D RollPitchI;
 	
 	//Lap related functions / variables
 	UFUNCTION(BlueprintImplementableEvent, BlueprintCallable) void Record(bool Record);

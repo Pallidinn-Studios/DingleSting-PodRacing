@@ -213,10 +213,10 @@ void APodRacer::YawControl(FVector2D YawThrottleInput, FVector2D RollPitchInput)
 	if(!CanMove) return;
 
 	//Calculate weighted input to yaw
-	TargetYaw = FMath::FInterpTo(TargetYaw, ((RollPitchInput.X * 3.6) + (YawThrottleInput.X * 4)) * GlobalControlSensitivity, GetWorld()->GetDeltaSeconds(), 4);
+	TargetYaw = FMath::FInterpTo(TargetYaw, ((RollPitchInput.X * 300.6) + (YawThrottleInput.X * 400)) * GlobalControlSensitivity, GetWorld()->GetDeltaSeconds(), 4);
 
 	//Rotates the player on the yaw axis
-	AddActorWorldRotation(FRotator(0,TargetYaw,0), false , nullptr, ETeleportType::TeleportPhysics);
+	AddActorWorldRotation(FRotator(0,TargetYaw,0)  * GetWorld()->DeltaTimeSeconds, false , nullptr, ETeleportType::TeleportPhysics);
 }
 
 //Adds tilt to the engines
