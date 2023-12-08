@@ -134,7 +134,7 @@ void APodRacer::Hover() {
 	//Calculate start and end pos
 	Start = FVector(GetActorLocation().X,GetActorLocation().Y,GetActorLocation().Z - 150);
 	End = Start + (FVector(0,0,-RideHeight - 500));
-	End = Start + get
+	End = Start - GetActorUpVector() * 1000;
 
 	FRotator TargetRotation;
 	
@@ -153,7 +153,9 @@ void APodRacer::Hover() {
 		TargetRotation = FMath::RInterpTo(GetActorRotation(), FRotationMatrix::MakeFromZX(HitResult.Normal, GetActorForwardVector()).Rotator(), GetWorld()->DeltaTimeSeconds, 2);
 
 		//sets new hovering position
-		FVector TargetP = FMath::VInterpTo(GetActorLocation(), FVector(GetActorLocation().X, GetActorLocation().Y, HitResult.Location.Z + RideHeight), GetWorld()->DeltaTimeSeconds, 10);
+		//FVector TargetP = FMath::VInterpTo(GetActorLocation(), FVector(GetActorLocation().X, GetActorLocation().Y, HitResult.Location.Z + RideHeight), GetWorld()->DeltaTimeSeconds, 10);
+		FVector TargetP = FMath::VInterpTo(GetActorLocation(), HitResult.ImpactPoint + GetActorUpVector() * RideHeight, GetWorld()->DeltaTimeSeconds, 10);
+
 		SetActorLocation(TargetP, false, nullptr, ETeleportType::ResetPhysics);
 	}
 	else {
