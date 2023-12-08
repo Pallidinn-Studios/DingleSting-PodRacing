@@ -134,6 +134,7 @@ void APodRacer::Hover() {
 	//Calculate start and end pos
 	Start = FVector(GetActorLocation().X,GetActorLocation().Y,GetActorLocation().Z - 150);
 	End = Start + (FVector(0,0,-RideHeight - 500));
+	End = Start + get
 
 	FRotator TargetRotation;
 	
@@ -216,7 +217,7 @@ void APodRacer::YawControl(FVector2D YawThrottleInput, FVector2D RollPitchInput)
 	TargetYaw = FMath::FInterpTo(TargetYaw, ((RollPitchInput.X * 300.6) + (YawThrottleInput.X * 400)) * GlobalControlSensitivity, GetWorld()->GetDeltaSeconds(), 4);
 
 	//Rotates the player on the yaw axis
-	AddActorWorldRotation(FRotator(0,TargetYaw,0)  * GetWorld()->DeltaTimeSeconds, false , nullptr, ETeleportType::TeleportPhysics);
+	AddActorLocalRotation(FRotator(0,TargetYaw,0)  * GetWorld()->DeltaTimeSeconds, false , nullptr, ETeleportType::TeleportPhysics);
 }
 
 //Adds tilt to the engines
