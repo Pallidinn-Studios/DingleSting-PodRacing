@@ -134,7 +134,7 @@ void APodRacer::Hover() {
 	//Calculate start and end pos
 	Start = FVector(GetActorLocation().X,GetActorLocation().Y,GetActorLocation().Z - 150);
 	End = Start + (FVector(0,0,-RideHeight - 500));
-	End = Start - GetActorUpVector() * 1000;
+	End = Start - GetActorUpVector() * GroundCheckDistance;
 
 	FRotator TargetRotation;
 	

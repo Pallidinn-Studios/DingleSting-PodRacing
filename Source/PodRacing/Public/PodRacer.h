@@ -120,6 +120,7 @@ public:
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float ForwardForce = 4000000.0;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float JoystickForce = 300000.0;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float RideHeight = 300;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float GroundCheckDistance = 5000;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float GroundDrag = 3;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float GroundAngularDrag = 4;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category="Flight settings") float AirDrag = 0;
