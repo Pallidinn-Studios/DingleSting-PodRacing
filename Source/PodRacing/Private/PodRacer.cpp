@@ -156,7 +156,7 @@ void APodRacer::Hover() {
 		//FVector TargetP = FMath::VInterpTo(GetActorLocation(), FVector(GetActorLocation().X, GetActorLocation().Y, HitResult.Location.Z + RideHeight), GetWorld()->DeltaTimeSeconds, 10);
 		FVector TargetP = FMath::VInterpTo(GetActorLocation(), HitResult.ImpactPoint + GetActorUpVector() * RideHeight, GetWorld()->DeltaTimeSeconds, 10);
 
-		SetActorLocation(TargetP, false, nullptr, ETeleportType::ResetPhysics);
+		SetActorLocation(HitResult.ImpactPoint + GetActorUpVector() * RideHeight, false, nullptr, ETeleportType::ResetPhysics);
 	}
 	else {
 		//Sets physics settings
