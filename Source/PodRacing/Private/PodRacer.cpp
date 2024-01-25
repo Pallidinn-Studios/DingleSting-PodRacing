@@ -132,7 +132,7 @@ void APodRacer::RestartGame() {
 //Keeps the pod at the correct height above the ground
 void APodRacer::Hover() {
 	//Calculate start and end pos
-	Start = FVector(GetActorLocation().X,GetActorLocation().Y,GetActorLocation().Z - 150);
+	Start = FVector(GetActorLocation().X,GetActorLocation().Y,GetActorLocation().Z);
 	End = Start + (FVector(0,0,-RideHeight - 500));
 	End = Start - GetActorUpVector() * GroundCheckDistance;
 
