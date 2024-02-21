@@ -3,10 +3,10 @@
 #pragma once
 
 #include "CoreMinimal.h"
+//#include "NiagaraFunctionLibrary.h"
+//#include "NiagaraComponent.h"
 #include "InputAction.h"
 #include "GameFramework/Pawn.h"
-#include "NiagaraFunctionLibrary.h"
-#include "NiagaraComponent.h"
 #include "Math/Vector2D.h"
 #include "Components/SkeletalMeshComponent.h"
 #include "Physics/NetworkPhysicsComponent.h"
@@ -16,12 +16,12 @@ USTRUCT(BlueprintType)
 struct FRaceGhost {
 	GENERATED_BODY()
 	
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) float FinishTime = 0;
+	UPROPERTY(BlueprintReadWrite, EditAnywhere) int StartingPosition = 0;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) FString RacerName;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) TArray<FTransform> GhostTransform;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) TArray<FVector2D> GhostYawThrottle;
 	UPROPERTY(BlueprintReadWrite, EditAnywhere) TArray<FVector2D> GhostRollPitch;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere) float FinishTime;
-	UPROPERTY(BlueprintReadWrite, EditAnywhere) int StartingPosition;
 };
 
 UENUM(BlueprintType)
@@ -93,7 +93,7 @@ public:
 	UFUNCTION(BlueprintCallable) void PodMovement(FVector2D YawThrottleInput, FVector2D RollPitchInput);
 
 	//Created components
-	UPROPERTY(BlueprintReadWrite) UNiagaraSystem* LeftEngineParticals; 
+	//UPROPERTY(BlueprintReadWrite) UNiagaraSystem* LeftEngineParticals; 
 	
 	//Visual
 	virtual void OnConstruction(const FTransform& Transform) override;

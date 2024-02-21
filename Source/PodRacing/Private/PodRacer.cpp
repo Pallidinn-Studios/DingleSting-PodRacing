@@ -31,7 +31,7 @@ APodRacer::APodRacer()
 	
 	LeftEngine = CreateDefaultSubobject<USkeletalMeshComponent>(TEXT("Left engine"));
 	LeftEngine->SetupAttachment(LeftEngineParent);
-	LeftEngineParticals = CreateDefaultSubobject<UNiagaraSystem>(TEXT("Left engine particals")); // Particals
+	//LeftEngineParticals = CreateDefaultSubobject<UNiagaraSystem>(TEXT("Left engine particals")); // Particals
 	//LeftEngineParticals->SetupAttachment(RightEngineParent);
 	
 	//Create right engine 
