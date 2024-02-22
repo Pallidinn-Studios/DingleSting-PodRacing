@@ -4,7 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "PodRacer.h"
-#include "UnrealWidgetFwd.h"
+//#include "UnrealWidgetFwd.h"
 #include "GameFramework/GameModeBase.h"
 #include "PodRacingGameMode.generated.h"
 
