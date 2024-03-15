@@ -90,7 +90,6 @@ void APodRacer::Tick(float DeltaTime) {
 		TiltPod(RollPitchI);
 		TiltEngines();
 	}
-
 	
 	
 	//If using boost decrement the boost amount
